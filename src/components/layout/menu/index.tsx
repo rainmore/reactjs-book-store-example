@@ -1,4 +1,4 @@
-import './index.scss'
+import './index.scss';
 
 export const MenuComponent = () => {
   return (
@@ -9,11 +9,8 @@ export const MenuComponent = () => {
           <li>
             <a>Dashboard</a>
           </li>
-          <li>
-            <a>Customers</a>
-          </li>
         </ul>
-        <p className="menu-label">Administration</p>
+        <p className="menu-label">Settings</p>
         <ul className="menu-list">
           <li>
             <a>Team Settings</a>
@@ -42,33 +39,15 @@ export const MenuComponent = () => {
             <a>Authentication</a>
           </li>
         </ul>
-        <p className="menu-label">Transactions</p>
-        <ul className="menu-list">
-          <li>
-            <a>Payments</a>
-          </li>
-          <li>
-            <a>Transfers</a>
-          </li>
-          <li>
-            <a>Balance</a>
-          </li>
-        </ul>
       </aside>
 
       <aside className="menu sub-menu menu-end is-hidden-mobile">
         <ul className="menu-list">
           <li>
-            <a href="http://localhost:8080/docs/">Documentation</a>
-          </li>
-          <li>
-            <a href="http://localhost:8080/data/">Data Folder</a>
-          </li>
-          <li>
-            <a href="https://wytn.com.au">Powered By WYTN</a>
+            <a href="https://rainmore.com.au">Powered By Rainmore</a>
           </li>
         </ul>
       </aside>
     </>
-  )
-}
+  );
+};
