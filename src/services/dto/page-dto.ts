@@ -1,4 +1,4 @@
-export interface Page<Type> {
+export interface PageDto<Type> {
   content: Type[];
   pageNumber: number;
   pageSize: number;

@@ -2,14 +2,15 @@ import axios, {
   AxiosResponse,
   AxiosInstance
 }                       from 'axios';
-import { Page }         from './dto/page.ts';
-import { JsonResponse } from './dto/json-response.ts';
+import { PageDto }         from './dto/page-dto.ts';
+import { JsonResponseDto } from './dto/json-response-dto.ts';
+import { PageableDto } from './dto/pageable-dto.ts';
 
-type Response<Type> = Page<Type> | JsonResponse<Type>;
+type ResponseDto<Type> = PageDto<Type> | JsonResponseDto<Type>;
 
-class ApiService {
+export class ApiService {
 
-  findPage<T = any, P = Response<T>>(uri: string, params?: any): Promise<P> {
+  findPage<T = any, P = ResponseDto<T>(uri: string, params?: any, pageable?: PageableDto): Promise<P> {
     return this.get(uri, params).then(response => {
       return response.data;
     });
@@ -19,6 +20,10 @@ class ApiService {
     return this.getAxiosInstance().get(uri, {
       params: params
     });
+  }
+
+  post(uri: string, data: any): Promise<AxiosResponse> {
+    return this.getAxiosInstance().post(uri, data);
   }
 
   private getAxiosInstance(): AxiosInstance {
@@ -33,4 +38,8 @@ class ApiService {
     return instance;
   }
 
+}
+
+export {
+  
 }

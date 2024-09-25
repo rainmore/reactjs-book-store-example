@@ -1,10 +1,16 @@
-import { NavComponent } from './nav/index'
-import { MenuComponent } from './menu/index'
+import React from 'react';
 
-export const MainLayoutComponent = ({ children }: { children: React.ReactNode }) => {
+import { NavComponent } from './nav/index';
+import { MenuComponent } from './menu/index';
+
+interface Props {
+  children: React.ReactNode
+}
+
+export const MainLayoutComponent: React.FC<Props> = ({ children }) => {
   const props = {
     isAuthenticated: true,
-  }
+  };
   return (
     <>
       <NavComponent isAuthenticated={props.isAuthenticated}></NavComponent>
@@ -18,5 +24,5 @@ export const MainLayoutComponent = ({ children }: { children: React.ReactNode })
         </div>
       </section>
     </>
-  )
-}
+  );
+};

@@ -1,6 +1,7 @@
+import React from 'react';
 import './index.scss';
 
-export const MenuComponent = () => {
+export const MenuComponent: React.FC = () => {
   return (
     <>
       <aside className="menu main-menu">

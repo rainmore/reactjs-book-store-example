@@ -15,6 +15,10 @@ import {
   LoginPage,
   ForgetPasswordPage
 }                     from './pages';
+import {
+  AppContext,
+  DefaultAppContext
+}                     from './services/context'
 
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { fab }     from '@fortawesome/free-brands-svg-icons';
@@ -26,34 +30,35 @@ library.add(fab, fas, far);
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     {/* <App /> */}
-
-    <Router>
-      <Routes>
-        <Route
-          path="/auth/login"
-          element={
-            <PlainLayoutComponent>
-              <LoginPage />
-            </PlainLayoutComponent>
-          }
-        />
-        <Route
-          path="/auth/forget-password"
-          element={
-            <PlainLayoutComponent>
-              <ForgetPasswordPage />
-            </PlainLayoutComponent>
-          }
-        />
-        <Route
-          path="/"
-          element={
-            <MainLayoutComponent>
-              <DashboardPage />
-            </MainLayoutComponent>
-          }
-        />
-      </Routes>
-    </Router>
+    <AppContext.Provider value={ DefaultAppContext }>
+      <Router>
+        <Routes>
+          <Route
+            path="/auth/login"
+            element={
+              <PlainLayoutComponent>
+                <LoginPage />
+              </PlainLayoutComponent>
+            }
+          />
+          <Route
+            path="/auth/forget-password"
+            element={
+              <PlainLayoutComponent>
+                <ForgetPasswordPage />
+              </PlainLayoutComponent>
+            }
+          />
+          <Route
+            path="/"
+            element={
+              <MainLayoutComponent>
+                <DashboardPage />
+              </MainLayoutComponent>
+            }
+          />
+        </Routes>
+      </Router>
+    </AppContext.Provider>
   </StrictMode>
 );

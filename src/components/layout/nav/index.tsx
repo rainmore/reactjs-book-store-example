@@ -1,10 +1,11 @@
-import './index.scss'
+import React from 'react';
+import './index.scss';
 
 type Props = {
   isAuthenticated: boolean
 }
 
-export const NavComponent = (props: Props) => {
+export const NavComponent: React.FC<Props> = ({ isAuthenticated }) => {
   return (
     <>
       <nav className="navbar is-flex-tablet is-primary" role="navigation" aria-label="main navigation">
@@ -14,7 +15,7 @@ export const NavComponent = (props: Props) => {
           </a>
         </div>
 
-        {props.isAuthenticated && (
+        {isAuthenticated && (
           <div className="navbar-end">
             <div className="navbar-item has-dropdown is-hoverable">
               <a className="navbar-link">Your name</a>
@@ -30,5 +31,5 @@ export const NavComponent = (props: Props) => {
         )}
       </nav>
     </>
-  )
-}
+  );
+};
