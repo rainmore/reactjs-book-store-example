@@ -10,7 +10,7 @@ export const NavComponent = (props: Props) => {
       <nav className="navbar is-flex-tablet is-primary" role="navigation" aria-label="main navigation">
         <div className="navbar-brand">
           <a className="navbar-item title" href="#">
-            EDI COM 2
+            {import.meta.env.VITE_APP_TITLE}
           </a>
         </div>
 
