@@ -1,23 +1,54 @@
-import { Context, createContext } from 'react';
+import {
+  Context,
+  createContext
+} from 'react';
 
-type Theme = "light" | "dark";
+enum Theme {
+  LIGHT = 'light',
+  DARK = 'dark'
+}
+
+enum AccountStatus {
+  ACTIVE = 'ACTIVE',
+  DISABLED = 'DISABLEd',
+  SUSPENDED = 'SUSPENDED'
+}
+
+interface Account {
+  id: number,
+  firstname: string,
+  lastname: string,
+  email: string,
+  status: AccountStatus,
+  lastLoginAt?: Date
+}
 
 interface CurrentUser {
-  username: string;
+  account: Account;
   firstName: string,
   lastName: string
 }
 
 interface AppContextType {
   theme: Theme,
-  currentUser?: CurrentUser
+  currentUser?: CurrentUser,
+  jwtToken?: string
 }
 
 const DefaultAppContext: AppContextType = {
-  theme: "light"
-}
+  theme: Theme.LIGHT
+};
 
-const AppContext: Context<AppContextType>  = createContext<AppContextType>(DefaultAppContext);
+const AppContext: Context<AppContextType> = createContext<AppContextType>(DefaultAppContext);
 
-export { AppContext, DefaultAppContext };
-export type { CurrentUser, Theme };
+export {
+  AppContext,
+  DefaultAppContext
+};
+export type {
+  Theme,
+  AccountStatus,
+  Account,
+  CurrentUser,
+  AppContextType
+};

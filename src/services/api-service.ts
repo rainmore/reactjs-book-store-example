@@ -1,45 +1,83 @@
-import axios, {
-  AxiosResponse,
-  AxiosInstance
-}                       from 'axios';
-import { PageDto }         from './dto/page-dto.ts';
-import { JsonResponseDto } from './dto/json-response-dto.ts';
-import { PageableDto } from './dto/pageable-dto.ts';
+import {
+  AxiosInstance,
+  AxiosResponse
+} from 'axios';
+import {
+  AxiosService
+} from './axios-service.ts';
 
-type ResponseDto<Type> = PageDto<Type> | JsonResponseDto<Type>;
+interface JsonResponse<Type> {
+  data?: Type;
+  messages: string[];
+  timestamp: string;
+}
 
-export class ApiService {
+interface Page<Type> {
+  content: Type[];
+  pageNumber: number;
+  pageSize: number;
+  total: number;
+}
 
-  findPage<T = any, P = ResponseDto<T>(uri: string, params?: any, pageable?: PageableDto): Promise<P> {
-    return this.get(uri, params).then(response => {
+enum SortDirection {
+  ASC = 'ASC',
+  DESC = 'DESC'
+}
+
+interface Sort {
+  direction?: SortDirection;
+  field: string;
+}
+
+interface Pageable {
+  pageSize: number;
+  pageNumber: number;
+  sort?: Sort;
+}
+
+type Response<Type> = Page<Type> | JsonResponse<Type>;
+
+
+class ApiService {
+
+  private axiosInstance: AxiosInstance;
+
+  constructor(private axiosService: AxiosService) {
+    this.axiosInstance = this.axiosService.getAxiosInstance();
+    if (localStorage.getItem('Jwt-Token')) {
+      this.axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('Jwt-Token')}`;
+    }
+  }
+
+  findPage<T = any, P = Response<T>>(uri: string, params?: any, pageable?: Pageable): Promise<P> {
+    const parameters = {
+      ...params,
+      ...pageable
+    };
+    return this.get(uri, parameters).then(response => {
       return response.data;
     });
   }
 
   get(uri: string, params?: any): Promise<AxiosResponse> {
-    return this.getAxiosInstance().get(uri, {
+    return this.axiosInstance.get(uri, {
       params: params
     });
   }
 
   post(uri: string, data: any): Promise<AxiosResponse> {
-    return this.getAxiosInstance().post(uri, data);
-  }
-
-  private getAxiosInstance(): AxiosInstance {
-    const instance = axios.create({
-      baseURL: import.meta.env.BASE_URL
-    });
-
-    // instance.defaults.headers.common['Authorization'] = AUTH_TOKEN;
-    instance.defaults.headers.common['Accept'] = 'application/json';
-    instance.defaults.headers.post['Content-Type'] = 'application/json';
-    instance.defaults.timeout = 10000;
-    return instance;
+    return this.axiosInstance.post(uri, data);
   }
 
 }
 
-export {
-  
-}
+export type {
+  ApiService,
+  JsonResponse,
+  Page,
+  Pageable,
+  Response,
+  Sort,
+  SortDirection
+};
+export const apiService = new ApiService(new AxiosService());
