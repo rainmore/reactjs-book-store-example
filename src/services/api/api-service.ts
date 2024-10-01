@@ -4,36 +4,9 @@ import {
 } from 'axios';
 import {
   AxiosService
-} from './axios-service.ts';
+} from '../axios-service.ts';
+import { JsonResponse, Page, Pageable } from './types';
 
-interface JsonResponse<Type> {
-  data?: Type;
-  messages: string[];
-  timestamp: string;
-}
-
-interface Page<Type> {
-  content: Type[];
-  pageNumber: number;
-  pageSize: number;
-  total: number;
-}
-
-enum SortDirection {
-  ASC = 'ASC',
-  DESC = 'DESC'
-}
-
-interface Sort {
-  direction?: SortDirection;
-  field: string;
-}
-
-interface Pageable {
-  pageSize: number;
-  pageNumber: number;
-  sort?: Sort;
-}
 
 type Response<Type> = Page<Type> | JsonResponse<Type>;
 
@@ -71,13 +44,4 @@ class ApiService {
 
 }
 
-export type {
-  ApiService,
-  JsonResponse,
-  Page,
-  Pageable,
-  Response,
-  Sort,
-  SortDirection
-};
 export const apiService = new ApiService(new AxiosService());

@@ -1,17 +1,27 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import React, {
-  useContext,
-  useState
-}                          from 'react';
+import React, { useContext, useEffect, useState } from 'react';
+import { useNavigate }     from 'react-router-dom';
 import { authService }     from '../../services/auth/auth-service.ts';
-import { AppContext }      from '../../services/context';
+import { CurrentUserContext } from '../../services/auth/auth-context.ts';
 
 
 export const LoginPage: React.FC = () => {
 
-  const appContext = useContext(AppContext);
+  const currentUserContext = useContext(CurrentUserContext);
+  const navigate = useNavigate();
 
   const [loading, setLoading] = useState<boolean>(false);
+
+  const redirectHandler = () => {
+    navigate('/');
+  }
+
+  useEffect(() => {
+    if (currentUserContext?.currentUser) {
+      console.log("logged in user doesn't need to login again.")
+      redirectHandler();
+    }
+  });
 
   const submit = (event: React.SyntheticEvent): void => {
     event.preventDefault();
@@ -25,11 +35,9 @@ export const LoginPage: React.FC = () => {
       authService.login({
         username: target.email.value,
         password: target.password.value
-      }).then((currentUser) => {
-        appContext.currentUser = currentUser;
-        console.log(appContext);
+      }).then(() => {
+        redirectHandler();
       });
-
 
     } catch (ex) {
       console.error(ex);

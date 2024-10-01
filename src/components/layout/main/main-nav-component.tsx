@@ -1,11 +1,12 @@
-import React from 'react';
-import './index.scss';
+import React           from 'react';
+import { CurrentUser } from '../../../services/auth/types';
 
 type Props = {
-  isAuthenticated: boolean
+  currentUser: CurrentUser | null
 }
 
-export const NavComponent: React.FC<Props> = ({ isAuthenticated }) => {
+export const MainNavComponent: React.FC<Props> = ({currentUser}) => {
+
   return (
     <>
       <nav className="navbar is-flex-tablet is-primary" role="navigation" aria-label="main navigation">
@@ -15,10 +16,10 @@ export const NavComponent: React.FC<Props> = ({ isAuthenticated }) => {
           </a>
         </div>
 
-        {isAuthenticated && (
+        {currentUser && (
           <div className="navbar-end">
             <div className="navbar-item has-dropdown is-hoverable">
-              <a className="navbar-link">Your name</a>
+              <a className="navbar-link">{currentUser.account.firstname} {currentUser.account.lastname}</a>
 
               <div className="navbar-dropdown is-right">
                 <a className="navbar-item">Change Profile</a>

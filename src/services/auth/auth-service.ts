@@ -1,6 +1,9 @@
 import { AxiosInstance } from 'axios';
 import { AxiosService }  from '../axios-service.ts';
-import { CurrentUser }   from '../context.ts';
+import {
+  AuthContext,
+  CurrentUser
+}                        from './types';
 
 interface Login {
   username: string,
@@ -14,39 +17,35 @@ class AuthService {
     this.axiosInstance = this.axiosService.getAxiosInstance();
   }
 
-  login(LoginDto: Login): Promise<CurrentUser> {
+  login(LoginDto: Login): Promise<AuthContext> {
     return this.axiosInstance.post('/auth/login', LoginDto).then((response) => {
       const jwtToken = response.headers['jwt-token'];
       const currentUser: CurrentUser = response.data.data as CurrentUser;
-      this.setJwtToken(jwtToken);
-      this.setCurrentUser(currentUser);
-      return currentUser;
+      const authContext: AuthContext = {
+        currentUser,
+        jwtToken
+      };
+      this.setAuthContext(authContext);
+      console.log('authContext', authContext);
+      return authContext;
     });
   }
 
-  getJwtToken(): string | null {
-    return localStorage.getItem('Jwt-Token');
+  isAuthenticated(): boolean {
+    return this.getAuthContext() !== null;
   }
 
-  setJwtToken(token: string): void {
-    return localStorage.setItem('Jwt-Token', token);
+  getAuthContext(): AuthContext | null {
+    const data = localStorage.getItem('AuthContext');
+    return data ? JSON.parse(data) : null;
   }
 
-  resetJwtToken(): void {
-    this.setJwtToken('');
+  setAuthContext(authContext: AuthContext): void {
+    return localStorage.setItem('AuthContext', JSON.stringify(authContext));
   }
 
-  getCurrentUser(): CurrentUser | null {
-    const data = localStorage.getItem('CurrentUser');
-    return (data) ? JSON.parse(data) as CurrentUser : null;
-  }
-
-  setCurrentUser(currentUser: CurrentUser): void {
-    return localStorage.setItem('CurrentUser', JSON.stringify(currentUser));
-  }
-
-  resetCurrentUser(): void {
-    return localStorage.setItem('CurrentUser', '');
+  resetAuthContext(): void {
+    localStorage.removeItem('AuthContext');
   }
 
 }
