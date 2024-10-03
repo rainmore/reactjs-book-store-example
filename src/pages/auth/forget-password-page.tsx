@@ -1,4 +1,6 @@
-export const ForgetPasswordPage = () => {
+import React from "react";
+
+const ForgetPasswordPage: React.FC = () => {
   return (
     <>
       <h1>Forget Password</h1>
@@ -11,3 +13,6 @@ export const ForgetPasswordPage = () => {
     </>
   );
 };
+
+
+export default ForgetPasswordPage;

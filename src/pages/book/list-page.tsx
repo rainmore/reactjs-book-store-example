@@ -1,7 +1,6 @@
 import React from 'react';
 
-
-export const BookListPage: React.FC = () => {
+const ListPage: React.FC = () => {
   return (
     <>
       <h1>Book</h1>
@@ -9,3 +8,5 @@ export const BookListPage: React.FC = () => {
     </>
   );
 };
+
+export default ListPage;

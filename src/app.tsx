@@ -1,85 +1,75 @@
 import React, {
-    useContext
-}                             from 'react';
+  Suspense,
+  useContext,
+  useState
+} from 'react';
 import {
-    BrowserRouter as Router,
-    Route,
-    Routes
-}                             from 'react-router-dom';
+  BrowserRouter as Router,
+  Navigate,
+  Route,
+  Routes
+}                              from 'react-router-dom';
 import {
-    MainLayoutComponent,
-    PlainLayoutComponent
-}                             from './components';
+  AppRoutePaths,
+  appRoutes
+}                              from './app-routes.ts';
 import {
-    DashboardPage,
-    ForgetPasswordPage,
-    LoginPage
-}                             from './pages';
-import { BookListPage }       from './pages/book/list.tsx';
-import { CurrentUserContext } from './services/auth/auth-context.ts';
-import { AppRoute } from './components/app-route.tsx';
-
-
-// const router = createBrowserRouter([
-//   {
-//     path: "/",
-//     element: <DashboardPage />,
-//   },
-//   {
-//     path: "/auth/login",
-//     element: <PlainLayoutComponent><LoginPage /></PlainLayoutComponent>,
-//   },
-//   {
-//     path: "/auth/forget-password",
-//     element: <PlainLayoutComponent><ForgetPasswordPage /></PlainLayoutComponent>,
-//   },
-//   {
-//     path: "/book",
-//     element: <BookListPage />,
-//   },
-
-// ]);
-
+  MainLayoutComponent,
+  PlainLayoutComponent
+} from './components';
+import { MainNavComponent }    from './components/layout/main/main-nav-component.tsx';
+import LoginPage               from './pages/auth/login-page.tsx';
+import { CurrentUserContext }  from './services/auth/auth-context.ts';
 
 export const App: React.FC = () => {
-    const currentUserContext = useContext(CurrentUserContext);
-    // const navigate = useNavigate();
 
-    // useEffect(() => {
-    //     if (currentUserContext === null || currentUserContext === undefined) {
-    //         console.log('currentUser', currentUserContext);
-    //         navigate('/auth/login');
-    //     }
-    // });
-// https://reactrouter.com/en/main/start/overview#nested-routes
-// https://www.dhiwise.com/post/fixing-error-all-component-children-of-routes-must-be-a-route
-    return (
-        <Router>
-            <Routes>
-                <Route
-                    path="/auth/login"
-                    element={
-                        <PlainLayoutComponent>
-                            <LoginPage />
-                        </PlainLayoutComponent>
-                    }
-                />
-                <Route
-                    path="/auth/forget-password"
-                    element={
-                        <PlainLayoutComponent>
-                            <ForgetPasswordPage />
-                        </PlainLayoutComponent>
-                    }
-                />
-                <Route path="/" element={
-                  <MainLayoutComponent currentUser={currentUserContext?.currentUser || null}>
-                    <AppRoute index element={<DashboardPage />} />
-                    <AppRoute path="book" element={<BookListPage />} />
-                  </MainLayoutComponent>
-                }>
-                </Route>
-            </Routes>
-        </Router>
-    );
+  const currentUserContext = useContext(CurrentUserContext);
+  const [currentUser, setCurrentUser] = useState(currentUserContext?.currentUser)
+
+  return (
+    <Router>
+      <Suspense fallback={<h1>Loading...</h1>}>
+        <Routes>{appRoutes.map((route) => {
+          if (route.requireAuth) {
+            if (!currentUser) {
+              return (
+                <Route key={route.path}
+                       exact
+                       path={route.path}
+                       element={<Navigate replace to={AppRoutePaths.AUTH_LOGIN} />} />
+              );
+            } else {
+              return (
+              <Route key={route.path}
+                     exact
+                     path={route.path}
+                     element={<>
+                      <MainNavComponent currentUser={currentUser || null} setCurrentUser={setCurrentUser} />
+                      <MainLayoutComponent
+                       currentUser={currentUser || null}
+                       element={route.element}
+                     />
+                    </>} />
+              );
+            }
+          } else {
+            return (
+              <Route key={route.path}
+                     exact
+                     path={route.path}
+                     element={<PlainLayoutComponent element={<route.element />} />} />
+            );
+          }
+        })}
+          <Route key={AppRoutePaths.AUTH_LOGIN}
+                 exact
+                 path={AppRoutePaths.AUTH_LOGIN}
+                 element={<PlainLayoutComponent
+                   element={<LoginPage currentUser={currentUser || null} setCurrentUser={setCurrentUser} />}>
+                 </PlainLayoutComponent>} />
+
+        </Routes>
+      </Suspense>
+    </Router>
+  );
 };

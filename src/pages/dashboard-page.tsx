@@ -1,4 +1,6 @@
-export const DashboardPage = () => {
+import React from 'react'
+
+const DashboardPage: React.FC= () => {
   return (
     <>
       <h1>Welcome to my website</h1>
@@ -19,3 +21,6 @@ export const DashboardPage = () => {
     </>
   );
 };
+
+
+export default DashboardPage;

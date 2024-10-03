@@ -1,29 +1,37 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import React, { useContext, useEffect, useState } from 'react';
+import React, {
+  useEffect,
+  useState
+}                          from 'react';
 import { useNavigate }     from 'react-router-dom';
+import { AppRoutePaths }   from '../../app-routes.ts';
 import { authService }     from '../../services/auth/auth-service.ts';
-import { CurrentUserContext } from '../../services/auth/auth-context.ts';
+import { CurrentUser }     from '../../services/auth/types.ts';
 
 
-export const LoginPage: React.FC = () => {
+type Props = {
+  currentUser: CurrentUser | null
+  setCurrentUser: any
+}
 
-  const currentUserContext = useContext(CurrentUserContext);
+const LoginPage: React.FC<Props> = ({ currentUser, setCurrentUser }) => {
+
   const navigate = useNavigate();
 
   const [loading, setLoading] = useState<boolean>(false);
 
   const redirectHandler = () => {
-    navigate('/');
-  }
+    navigate(AppRoutePaths.DEASH_BOARD);
+  };
 
   useEffect(() => {
-    if (currentUserContext?.currentUser) {
-      console.log("logged in user doesn't need to login again.")
+    if (currentUser !== null) {
+      console.log('logged in user doesn\'t need to login again.');
       redirectHandler();
     }
   });
 
-  const submit = (event: React.SyntheticEvent): void => {
+  const onSubmit = (event: React.SyntheticEvent): void => {
     event.preventDefault();
     setLoading(true);
     try {
@@ -36,19 +44,20 @@ export const LoginPage: React.FC = () => {
         username: target.email.value,
         password: target.password.value
       }).then(() => {
+        setCurrentUser(authService.getAuthContext()?.currentUser);
         redirectHandler();
       });
 
     } catch (ex) {
       console.error(ex);
     } finally {
-      // setLoading(false);
+      setLoading(false);
     }
   };
 
   return (
     <>
-      <form onSubmit={submit}>
+      <form onSubmit={onSubmit}>
         <section className="hero box">
           <div className="hero-body">
             <h1 className="title">Login</h1>
@@ -97,3 +106,5 @@ export const LoginPage: React.FC = () => {
     </>
   );
 };
+
+export default LoginPage;

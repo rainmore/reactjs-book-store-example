@@ -26,7 +26,6 @@ class AuthService {
         jwtToken
       };
       this.setAuthContext(authContext);
-      console.log('authContext', authContext);
       return authContext;
     });
   }

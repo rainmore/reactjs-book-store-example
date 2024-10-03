@@ -1,15 +1,17 @@
 import React from 'react';
 
 interface Props {
-  children: React.ReactNode
+  element: React.ReactNode;
 }
 
-export const PlainLayoutComponent: React.FC<Props> = ({ children }) => {
+export const PlainLayoutComponent: React.FC<Props> = (props) => {
   return (
     <>
       <section className="main-content columns is-fullheight">
         <div className="container column is-10 section">
-          <section>{children}</section>
+          <section>
+            {props.element}
+          </section>
         </div>
       </section>
     </>
