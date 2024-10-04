@@ -1,6 +1,6 @@
 import React from 'react'
 
-const DashboardPage: React.FC= () => {
+const DashboardPage: React.FC = () => {
   return (
     <>
       <h1>Welcome to my website</h1>
@@ -19,8 +19,7 @@ const DashboardPage: React.FC= () => {
         <button className="button is-light">Light</button>
       </div>
     </>
-  );
-};
+  )
+}
 
-
-export default DashboardPage;
+export default DashboardPage

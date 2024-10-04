@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react'
 
 const ForgetPasswordPage: React.FC = () => {
   return (
@@ -11,8 +11,7 @@ const ForgetPasswordPage: React.FC = () => {
         <button type="submit">Reset password</button>
       </p>
     </>
-  );
-};
+  )
+}
 
-
-export default ForgetPasswordPage;
+export default ForgetPasswordPage
