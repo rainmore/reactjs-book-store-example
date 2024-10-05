@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom'
 import { AppRoutePaths } from '../../app-routes.ts'
 import { authService } from '../../services/auth/auth-service.ts'
 import { CurrentUser } from '../../services/auth/types.ts'
+import { toastService } from '../../services/toast-service.ts'
 
 type Props = {
   currentUser: CurrentUser | null
@@ -21,7 +22,7 @@ const LoginPage: React.FC<Props> = ({ currentUser, setCurrentUser }) => {
 
   useEffect(() => {
     if (currentUser !== null) {
-      console.log("logged in user doesn't need to login again.")
+      toastService.warn('logged in user doesn\'t need to login again.')
       redirectHandler()
     }
   })
@@ -41,8 +42,13 @@ const LoginPage: React.FC<Props> = ({ currentUser, setCurrentUser }) => {
           password: target.password.value,
         })
         .then(() => {
-          setCurrentUser(authService.getAuthContext()?.currentUser)
+          const currentUser = authService.getAuthContext()?.currentUser
+          setCurrentUser(currentUser)
+          toastService.success(`Welcome back, ${currentUser?.account.firstname}!`)
           redirectHandler()
+        })
+        .catch((error) => {
+            toastService.error(error.message)
         })
     } catch (ex) {
       console.error(ex)

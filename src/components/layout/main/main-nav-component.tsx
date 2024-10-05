@@ -3,6 +3,7 @@ import { useNavigate }   from 'react-router-dom';
 import { AppRoutePaths } from '../../../app-routes.ts';
 import { authService }   from '../../../services/auth/auth-service.ts';
 import { CurrentUser }   from '../../../services/auth/types';
+import { toastService } from '../../../services/toast-service.ts';
 
 type Props = {
   currentUser: CurrentUser | null
@@ -16,6 +17,7 @@ export const MainNavComponent: React.FC<Props> = ({currentUser, setCurrentUser})
   const onLogout = () => {
       authService.resetAuthContext();
       setCurrentUser(authService.getAuthContext());
+      toastService.info("You've logged out")
       navigate(AppRoutePaths.AUTH_LOGIN);
   }
 
