@@ -14,7 +14,8 @@ export class ApiService {
   findPage<T = any, P = Response<T>>(uri: string, params?: any, pageable?: Pageable, cancelToken?): Promise<P> {
     const parameters = {
       ...params,
-      ...pageable,
+      _size: pageable?.pageSize,
+      _page: pageable?.pageNumber,
       cancelToken
     }
     return this.get(uri, parameters).then((response) => {

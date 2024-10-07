@@ -12,7 +12,7 @@ export const MainLayoutComponent: React.FC<Props> = (props) => {
   return (
     <>
       <section className="main-content columns is-fullheight">
-        <div className="column is-3 is-narrow-mobile is-fullheight section">
+        <div className="column is-2 is-narrow-mobile is-fullheight section">
           <MainMenuComponent />
         </div>
 

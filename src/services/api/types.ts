@@ -6,9 +6,13 @@ export interface JsonResponse<Type> {
 
 export interface Page<Type> {
   content: Type[]
-  pageNumber: number
-  pageSize: number
-  total: number
+  number: number
+  size: number
+  totalPages: number
+  totalElements: number
+  empty: boolean
+  first: boolean
+  last: boolean
 }
 
 export enum SortDirection {

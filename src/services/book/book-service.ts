@@ -8,7 +8,7 @@ export class BookService {
 
   }
 
-  find(pageable?: Pageable, cancelToken?): Promise<Page<Book>> {
+  find(pageable?: Pageable): Promise<Page<Book>> {
     return this.apiService.findPage('/api/books', undefined, pageable)
   }
 }
