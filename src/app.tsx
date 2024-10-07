@@ -1,7 +1,7 @@
 import React, { Suspense, useContext, useState } from 'react'
 import { BrowserRouter as Router, Navigate, Route, Routes } from 'react-router-dom'
 import { AppRoutePaths, appRoutes } from './app-routes.ts'
-import { MainNavComponent } from './components/layout/main/main-nav-component.tsx'
+import { MainNavComponent } from './components/layout/nav/main-nav-component.tsx'
 import LoginPage from './pages/auth/login-page.tsx'
 import { CurrentUserContext } from './services/auth/auth-context.ts'
 import { MainLayoutComponent } from './components/layout/main-layout-component.tsx'

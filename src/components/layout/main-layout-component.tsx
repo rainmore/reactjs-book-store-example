@@ -1,6 +1,6 @@
 import React                 from 'react';
 import { CurrentUser }       from '../../services/auth/types';
-import { MainMenuComponent } from './main/main-menu-component';
+import { MainMenuComponent } from './nav/main-menu-component';
 
 type Props = {
   currentUser: CurrentUser | null,
