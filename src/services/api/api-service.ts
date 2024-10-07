@@ -27,6 +27,7 @@ class ApiService {
   get(uri: string, params?: any): Promise<AxiosResponse> {
     return this.axiosInstance.get(uri, {
       params: params,
+      signal: this.axiosService.newAbortSignal(5000),
     })
   }
 
