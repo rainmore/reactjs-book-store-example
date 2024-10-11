@@ -25,7 +25,6 @@ class ToastService {
   }
 
   private getDefaultOptions(toastType: ToastType): ToastOptions {
-    console.log(toastType)
     return {
       position: 'bottom-right',
     }

@@ -1,6 +1,8 @@
 import { AxiosInstance } from 'axios'
 import { AxiosService } from '../axios-service.ts'
 import { AuthContext, CurrentUser } from './types'
+import { jwtDecode, JwtHeader } from 'jwt-decode'
+import { dateTimeService } from '../date-time-service.ts'
 
 interface Login {
   username: string
@@ -28,6 +30,17 @@ class AuthService {
   }
 
   isAuthenticated(): boolean {
+    if (!this.hasJwtToken()) {
+      return false
+    }
+
+    const token:JwtHeader = jwtDecode(this.getAuthContext()?.jwtToken)
+    const expireDate = dateTimeService.timestampToDate(token?.exp)
+
+    return expireDate > new Date()
+  }
+
+  hasJwtToken(): boolean {
     return this.getAuthContext() !== null
   }
 
@@ -43,6 +56,7 @@ class AuthService {
   resetAuthContext(): void {
     localStorage.removeItem('AuthContext')
   }
+
 }
 
 export type { AuthService }

@@ -2,6 +2,7 @@ import { AxiosInstance, AxiosResponse } from 'axios'
 import { AxiosService } from '../axios-service.ts'
 import { JsonResponse, Page, Pageable } from './types'
 import { authService, AuthService } from '../auth/auth-service.ts'
+import { AppRoutes } from '../route/types.ts'
 
 type Response<Type> = Page<Type> | JsonResponse<Type>
 
@@ -16,7 +17,7 @@ export class ApiService {
       ...params,
       _size: pageable?.pageSize,
       _page: pageable?.pageNumber,
-      cancelToken
+      cancelToken,
     }
     return this.get(uri, parameters).then((response) => {
       return response.data
@@ -39,6 +40,19 @@ export class ApiService {
     if (this.authService.isAuthenticated()) {
       axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${this.authService.getAuthContext()?.jwtToken}`
     }
+
+    axiosInstance.interceptors.response.use(
+      (response) => response,
+      (error) => {
+        if (error.response.status === 401) {
+          this.authService.resetAuthContext()
+          window.location.href = AppRoutes.AUTH_LOGIN
+        } else {
+          return error
+        }
+      }
+    )
+
     return axiosInstance
   }
 }

@@ -1,5 +1,5 @@
-import React from 'react';
-import { Navigate, RouteProps } from 'react-router-dom';
+import React, { useContext } from 'react';
+import { Navigate, RouteProps, useLocation } from 'react-router-dom';
 import { CurrentUserContext } from '../services/auth/auth-context';
 import { AppRoutes } from '../services/route/types';
 
@@ -16,7 +16,7 @@ export const AppRoute: React.FC<RouteProps> = ({ children, ...rest }) => {
     <Navigate
       replace={true}
       to={AppRoutes.AUTH_LOGIN}
-      state={{ from: `${location.pathname}${location.search}` }}
+      state={{ from: `${location.pathname}?${location.search}` }}
   />
   )
 };
