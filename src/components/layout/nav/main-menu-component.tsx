@@ -21,11 +21,16 @@ export const MainMenuComponent: React.FC = () => {
             </Link>
           </li>
         </ul>
-        <p className="menu-label">Settings</p>
+        <p className="menu-label">Books</p>
         <ul className="menu-list">
           <li>
             <Link to={AppRoutePaths.BOOK_LIST} className={getActivePathClass(AppRoutePaths.BOOK_LIST)}>
               Books
+            </Link>
+          </li>
+          <li>
+            <Link to={AppRoutePaths.BOOK_CATEGORY_LIST} className={getActivePathClass(AppRoutePaths.BOOK_CATEGORY_LIST)}>
+              Categories
             </Link>
           </li>
         </ul>

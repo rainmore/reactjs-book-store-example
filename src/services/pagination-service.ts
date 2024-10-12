@@ -1,5 +1,6 @@
 import { Location, useLocation } from 'react-router-dom'
 import { Page, Pageable } from './api/types'
+import { UrlService } from './url-service'
 
 export class PaginationService {
   private readonly DefaultSize: number = 10
@@ -8,16 +9,18 @@ export class PaginationService {
 
   private location: Location = useLocation()
 
+  urlService = new UrlService()
+
   getBasePath(): string {
-    return this.location.pathname
+    return this.urlService.getBasePath()
   }
 
-  getURLSearchParams(): URLSearchParams {
-    return new URLSearchParams(this.location.search)
+  getSearchParameter(): string {
+    return this.location.search !== '' ? `?${this.location.search}` : ''
   }
 
   getPageable(): Pageable {
-    const search = this.getURLSearchParams()
+    const search = this.urlService.getURLSearchParams()
     const size = search.has('_size') ? Number(search.get('_size')) : this.DefaultSize
     const page = search.has('_page') ? Number(search.get('_page')) : 0
     return {
@@ -27,7 +30,7 @@ export class PaginationService {
   }
 
   buildPath(pageNumber: number): string {
-    const search = this.getURLSearchParams()
+    const search = this.urlService.getURLSearchParams()
     const number = Math.max(pageNumber, 0)
     search.set('_page', number.toString())
 
