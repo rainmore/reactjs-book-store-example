@@ -1,3 +1,17 @@
+$customized-turquoise: hsl(171, 100%, 41%);
+$customized-grey-dark: hsl(0, 0%, 29%);
+
+// Path to Bulma's sass folder
+@use "bulma/sass" with (
+  $family-primary: '"Nunito", sans-serif',
+  $breadcrumb-item-color: $customized-turquoise,
+  $breadcrumb-item-hover-color: $customized-turquoise,
+  $breadcrumb-item-active-color: $customized-grey-dark
+);
+
+// Import the Google Font
+@import url("https://fonts.googleapis.com/css?family=Nunito:400,700");
+
 table {
   tr {
     th.col-id {
