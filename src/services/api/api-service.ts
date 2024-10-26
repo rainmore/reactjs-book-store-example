@@ -1,8 +1,8 @@
-import { AxiosInstance, AxiosResponse } from 'axios'
-import { AxiosService } from '../axios-service.ts'
-import { JsonResponse, Page, Pageable } from './types'
+import { AxiosInstance, AxiosResponse, CancelToken } from 'axios'
 import { authService, AuthService } from '../auth/auth-service.ts'
+import { AxiosService } from '../axios-service.ts'
 import { AppRoutes } from '../route/types.ts'
+import { JsonResponse, Page, Pageable } from './types'
 
 type Response<Type> = Page<Type> | JsonResponse<Type>
 
@@ -12,7 +12,7 @@ export class ApiService {
     private authService: AuthService
   ) {}
 
-  findPage<T = any, P = Response<T>>(uri: string, params?: any, pageable?: Pageable, cancelToken?): Promise<P> {
+  findPage<T = any, P = Response<T>>(uri: string, params?: any, pageable?: Pageable, cancelToken?: CancelToken): Promise<P> {
     const parameters = {
       ...params,
       _size: pageable?.pageSize,

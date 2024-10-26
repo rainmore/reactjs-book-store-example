@@ -4,7 +4,7 @@ import { CurrentUserContext } from '../services/auth/auth-context';
 import { AppRoutes } from '../services/route/types';
 
 
-export const AppRoute: React.FC<RouteProps> = ({ children, ...rest }) => {
+export const AppRoute: React.FC<RouteProps> = ({ children}) => {
 
   const currentUserContext = useContext(CurrentUserContext);
 

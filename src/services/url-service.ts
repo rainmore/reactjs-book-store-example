@@ -1,7 +1,7 @@
 import { useLocation } from 'react-router-dom'
 
 export class UrlService {
-  private location: Location = useLocation()
+  private location = useLocation()
 
   getBasePath(): string {
     return this.location.pathname

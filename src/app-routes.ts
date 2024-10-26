@@ -17,7 +17,7 @@ export enum AppRoutePaths {
 interface AppRoute {
   path: AppRoutePaths
   action?: ActionFunction
-  element: React.FunctionComponent
+  element: React.LazyExoticComponent<React.FunctionComponent<any>>
   requireAuth: boolean
 }
 

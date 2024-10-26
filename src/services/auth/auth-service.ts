@@ -1,8 +1,8 @@
 import { AxiosInstance } from 'axios'
+import { jwtDecode, JwtPayload } from 'jwt-decode'
 import { AxiosService } from '../axios-service.ts'
-import { AuthContext, CurrentUser } from './types'
-import { jwtDecode, JwtHeader } from 'jwt-decode'
 import { dateTimeService } from '../date-time-service.ts'
+import { AuthContext, CurrentUser } from './types'
 
 interface Login {
   username: string
@@ -34,8 +34,8 @@ class AuthService {
       return false
     }
 
-    const token:JwtHeader = jwtDecode(this.getAuthContext()?.jwtToken)
-    const expireDate = dateTimeService.timestampToDate(token?.exp)
+    const token: JwtPayload = jwtDecode(this.getAuthContext()?.jwtToken as string)
+    const expireDate = dateTimeService.timestampToDate(token?.exp as number)
 
     return expireDate > new Date()
   }

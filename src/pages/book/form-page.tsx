@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react'
-import LoadingComponent from '../../components/layout/loading-component'
-import { bookService } from '../../services/book/book-service'
 import ButtonComponent, { ButtonType } from '../../components/form/button-component'
 import LabelComponent from '../../components/form/label-component'
+import LoadingComponent from '../../components/layout/loading-component'
 
 
 interface Props {

@@ -1,14 +1,14 @@
 import React, { Suspense, useContext, useState } from 'react'
-import { BrowserRouter as Router, Navigate, Route, Routes } from 'react-router-dom'
+import { Navigate, Route, BrowserRouter as Router, Routes } from 'react-router-dom'
+import { ToastContainer } from 'react-toastify'
 import { AppRoutePaths, appRoutes } from './app-routes.ts'
+import { MainLayoutComponent } from './components/layout/main-layout-component.tsx'
 import { MainNavComponent } from './components/layout/nav/main-nav-component.tsx'
+import { PlainLayoutComponent } from './components/layout/plain-layout-component.tsx'
 import LoginPage from './pages/auth/login-page.tsx'
 import { CurrentUserContext } from './services/auth/auth-context.ts'
-import { MainLayoutComponent } from './components/layout/main-layout-component.tsx'
-import { PlainLayoutComponent } from './components/layout/plain-layout-component.tsx'
-import { ToastContainer } from 'react-toastify'
 
-import 'react-toastify/dist/ReactToastify.css';
+import 'react-toastify/dist/ReactToastify.css'
 
 export const App: React.FC = () => {
   const currentUserContext = useContext(CurrentUserContext)
@@ -23,12 +23,11 @@ export const App: React.FC = () => {
             {appRoutes.map((route) => {
               if (route.requireAuth) {
                 if (!currentUser) {
-                  return <Route key={route.path} exact path={route.path} element={<Navigate replace to={AppRoutePaths.AUTH_LOGIN} />} />
+                  return <Route key={route.path} path={route.path} element={<Navigate replace to={AppRoutePaths.AUTH_LOGIN} />} />
                 } else {
                   return (
                     <Route
                       key={route.path}
-                      exact
                       path={route.path}
                       element={
                         <>
@@ -40,12 +39,11 @@ export const App: React.FC = () => {
                   )
                 }
               } else {
-                return <Route key={route.path} exact path={route.path} element={<PlainLayoutComponent element={<route.element />} />} />
+                return <Route key={route.path} path={route.path} element={<PlainLayoutComponent element={<route.element />} />} />
               }
             })}
             <Route
               key={AppRoutePaths.AUTH_LOGIN}
-              exact
               path={AppRoutePaths.AUTH_LOGIN}
               element={
                 <PlainLayoutComponent

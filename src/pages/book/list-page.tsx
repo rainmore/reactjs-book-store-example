@@ -52,7 +52,7 @@ const ListPage: React.FC = () => {
                         <td>{row.id}</td>
                         <td>{row.name}</td>
                         <td>{row.category?.name}</td>
-                        <td>{row.publicationDate}</td>
+                        <td>{row.publicationDate.toString()}</td>
                         <td></td>
                       </tr>
                     )

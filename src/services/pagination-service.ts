@@ -55,7 +55,7 @@ export class PaginationService {
     return this.buildPath(page.totalPages - 1)
   }
 
-  getPaginationRage(page: Page<Any>): number[] {
+  getPaginationRage(page: Page<any>): number[] {
     const range: number[] = []
 
     if (page.empty) {

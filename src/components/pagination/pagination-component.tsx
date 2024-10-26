@@ -3,14 +3,14 @@ import { Page } from '../../services/api/types'
 import { PaginationService } from '../../services/pagination-service'
 
 interface Props {
-  page: Page<Any>
+  page: Page<any> | null
 }
 
 const PaginationComponent: React.FC<Props> = ({ page }: Props) => {
   const paginationService = new PaginationService()
 
   return (
-    !page.empty && (
+    page && !page.empty && (
       <nav className="pagination is-centered" role="navigation" aria-label="pagination">
         {page.first ? (
           <>
